@@ -1,0 +1,119 @@
+server:
+  port: 8980
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      # 主库数据源
+      master:
+        url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password:
+      # 从库数据源
+      slave:
+        #从数据源开关/默认关闭
+        enabled: true
+        url: jdbc:mysql://106.52.246.232:3306/blog?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        username: root
+        password: txr611117
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /monitor/druid/*
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  #datasource:
+  #  url: jdbc:mysql://106.52.246.232:3306/blog?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai&&tinyInt1isBit=false
+   # driver-class-name: com.mysql.jdbc.Driver
+   # username: root
+  #  password: txr611117
+   # druid:
+   #   pool-prepared-statements: true
+   #   initial-size: 10
+   #   max-active: 50
+  #    min-idle: 2
+   #   max-wait: 60000
+   #   filters: stat
+   #   test-on-borrow: false
+   #   test-while-idle: true
+   #   test-on-return: false
+    #  query-timeout: 0
+    #  transaction-query-timeout: 0
+    #  login-timeout: 0
+     # validation-query: select 1 from dual
+    #  validation-query-timeout: 1
+  servlet:
+    multipart:
+      enabled: true #开启文件上传
+      max-file-size: 10MB #限制文件上传大小为10M
+#  redis:
+#    datasource:
+#    timeout: 2000
+#    password:
+#    cluster:
+#      max-redirects: 3  #失败次数 最大重定向次数
+ #     nodes: 127.0.0.1:6947,127.0.0.1:6943,127.0.0.1:6944,127.0.0.1:6945,127.0.0.1:6946,127.0.0.1:6948
+#    lettuce:
+ #     pool:
+ #       max-active: 8
+#        max-wait: -1
+#        max-idle: 8
+#        time-between-eviction-runs:
+ #       min-idle: 0
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 8
+        time-between-eviction-runs:
+    timeout: 2000
+sms:
+  api:
+    accessKeyId: LTAI4FhPgDHfqcN5AzA6ZrMT
+    accessSecret: gQpErEDnjGgqJUAJbqKkWPb5fgYAyx
+    signName: tangxrblog
+    templateCode: SMS_185560861
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  check-config-location: true
+  global-config:
+    db-config:
+      logic-delete-value: 1 # 逻辑已删除值
+      logic-not-delete-value: 0 # 逻辑未删除值
